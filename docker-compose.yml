@@ -1,0 +1,254 @@
+version: "3"
+
+##########################################################################
+##
+## This file was developed with:
+##   * docker version
+##     Client:
+##      Version:      17.03.1-ce
+##      API version:  1.27
+##      Go version:   go1.7.5
+##      Git commit:   c6d412e
+##      Built:        Fri Mar 24 00:45:26 2017
+##      OS/Arch:      linux/amd64
+##     
+##     Server:
+##      Version:      17.03.1-ce
+##      API version:  1.27 (minimum version 1.12)
+##      Go version:   go1.7.5
+##      Git commit:   c6d412e
+##      Built:        Fri Mar 24 00:45:26 2017
+##      OS/Arch:      linux/amd64
+##      Experimental: false
+##     
+##   * docker-compose --version
+##     docker-compose version 1.11.1, build 7c5d5e4
+##     https://docs.docker.com/compose/install/
+##
+## * Where possible I tried using SSL ports.  If there is non-SSL ports 
+##    active then either the app does not support SSL or I need to generate
+##    SSL certs and have not gotten to that yet.
+##
+## * The PGID of 1001 is for a local user named htpc
+## * The PUID of 1001 is for a local group named htpc
+##
+##########################################################################
+
+services:
+
+  #####################################
+  # OpenVPN network connectivity
+  #####################################
+
+#  vpn:
+#    image: dperson/openvpn-client
+#    container_name: vpn
+#    environment:
+#      TZ: 'MST7MDT'
+#    cap_add:
+#      - net_admin
+#  #  dns:
+#  #    - 8.8.4.4
+#  #    - 8.8.8.8
+#    read_only: true
+#    tmpfs:
+#      - /tmp
+#    restart: unless-stopped
+#    security_opt:
+#      - label:disable
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - /docker/openvpn-client/config:/vpn
+#      - /dev/net:/dev/net:z
+
+  #####################################
+  # Downloader
+  #####################################
+  
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      #- "8080:8080" # HTTP
+      - "9090:9090" # HTTPS
+    volumes:
+      - /docker/sabnzbd/config:/config
+        # location of downloading files
+      - /fileserver/incomplete:/fileserver/incomplete
+        # location of downloaded files waiting for post-procesing
+      - /fileserver/complete:/fileserver/complete
+        # location to put manually downloaded NZB's
+      - /fileserver/watched:/fileserver/watched
+
+  #####################################
+  # Indexers
+  ####################################
+  
+  couchpotato:
+    image: linuxserver/couchpotato
+    container_name: couchpotato
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "5050:5050"
+    volumes:
+      - /docker/couchpotato/config:/config
+        # location of post-processed movies
+      - /fileserver/movies:/fileserver/movies
+        # location of downloaded movies waiting for post-prcessing
+      - /fileserver/complete/movies:/fileserver/complete/movies
+    depends_on:
+      - sabnzbd
+
+   ###############################
+   ## Still using CouchPotato for the time being
+   ###############################
+#  radarr:
+#    image: linuxserver/radarr
+#    container_name: radarr
+#    environment:
+#      - PGID=1001
+#      - PUID=1001
+#      - TZ=America/Denver
+#    ports:
+#      - "7878:7878"
+#    volumes:
+#      - /docker/radarr/config:/config
+#      - /fileserver/complete/movies:/downloads
+#      - /fileserver/movies:/movies
+#    depends_on:
+#      - sabnzbd
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+      - VERSION=latest
+    ports:
+      - "8989:8989" # HTTP
+      #- "9898:9898" # HTTPS
+    volumes:
+      - /docker/sonarr/config:/config
+      - /dev/rtc:/dev/rtc:ro
+      - /fileserver/tv:/fileserver/tv
+      - /fileserver/complete/tv:/fileserver/complete/tv
+    depends_on: 
+      - sabnzbd
+
+  lazylibrarian:
+    image: linuxserver/lazylibrarian
+    container_name: lazylibrarian
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "5299:5299"
+    volumes:
+      - /docker/lazylibrarian/config:/config
+      - /fileserver/complete/books:/fileserver/complete/books
+      - /fileserver/books:/fileserver/books
+    depends_on: 
+      - sabnzbd
+
+#  mylar:
+#    image: linuxserver/mylar
+
+  headphones:
+    image: linuxserver/headphones
+    container_name: headphones
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "8181:8181"
+    volumes:
+      - /docker/headphones/config:/config
+      - /fileserver/complete/music:/fileserver/complete/music
+      - /fileserver/music:/fileserver/music
+    depends_on: 
+      - sabnzbd
+
+  #####################################
+  # Front End
+  #####################################
+
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+      - VERSION=latest
+    volumes:
+      - /docker/plex/config:/config
+      - /fileserver/tv:/fileserver/tv
+      - /fileserver/movies:/fileserver/movies
+      - /fileserver/music:/fileserver/music
+      - /fileserver/transcode:/fileserver/transcode
+    network_mode: "host"
+
+  #####################################
+  # Managers
+  ####################################
+
+  ombi:
+    image: linuxserver/ombi
+    container_name: ombi
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "3579:3579"
+    volumes:
+      - /docker/ombi/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - sonarr
+      - couchpotato
+      - plex
+
+  plexpy:
+    image: linuxserver/plexpy
+    container_name: plexpy
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "8282:8181"
+    volumes:
+      - /docker/plexpy/config:/config
+      - /docker/plex/config/Library/Application Support/Plex Media Server/Logs:/logs:ro
+    depends_on: 
+      - plex 
+
+  htpcmanager:
+    image: linuxserver/htpcmanager
+    container_name: htpcmanager
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "8085:8085"
+    volumes:
+      - /docker/htpcmanager/config:/config
+    depends_on:
+      - sabnzbd
+      - sonarr
+      - couchpotato
+      - plex
