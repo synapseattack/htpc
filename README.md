@@ -2,7 +2,11 @@
 
 Start your entire HTPC environment with one command.
 
-* [Sabnzbd](https://sabnzbd.org) [linuxserver/sabnzbd](https://hub.docker.com/r/linuxserver/plex/) - Free and easy binary newsreader
+[comment]: <> (https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)
+[comment]: <> (<img src="https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png" title="Docker" width="24">)
+[comment]: <> (<a href="http://google.com.au/" rel="some text">![Foo](http://www.google.com.au/images/nav_logo7.png)]</a>)
+
+* [Sabnzbd](https://sabnzbd.org) <a href="https://hub.docker.com/r/linuxserver/sabnzbd/" rel="linuxserver/sabnzbd">[![linuxserver/sabnzbd](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)]</a> - Free and easy binary newsreader
 * [CouchPotato](https://couchpota.to) [linuxserver/couchpotato](https://hub.docker.com/r/linuxserver/couchpotato/) - Download movies automatically 
 * [Sonarr](https://sonarr.tv) [linuxserver/sonarr](https://hub.docker.com/r/linuxserver/sonarr/) - Download tv episodes automatically
 * [LazyLibrarian](https://github.com/lazylibrarian/LazyLibrarian) [linuxserver/lazylibrarian](https://hub.docker.com/r/linuxserver/lazylibrarian/) - Download books and magazines automatically 
