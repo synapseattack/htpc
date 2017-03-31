@@ -1,16 +1,16 @@
 # docker-compose HTPC
 
-Start your entire HTPC environment with one command
+Start your entire HTPC environment with one command.
 
-* linuxserver/sabnzbd - Free and easy binary newsreader (sabnzbd.org)
-* linuxserver/couchpotato - Download movies automatically (https://couchpota.to)
-* linuxserver/sonarr - Download tv episodes automatically (https://sonarr.tv)
-* linuxserver/lazylibrarian - Download books and magazines automatically (https://github.com/lazylibrarian/LazyLibrarian)
-* linuxserver/headphones - Download music automatically (https://github.com/rembo10/headphones)
-* linuxserver/plex - Stream all your content to all your devices (https://www.plex.tv)
-* linuxserver/ombi - Plex Request and user management system (ombi.io)
-* linuxserver/plexpy - A Python based monitoring and tracking tool for Plex Media Server (https://github.com/JonnyWong16/plexpy)
-* linuxserver/htpcmanager - Manage your HTPC from anywhere (htpcmanager.io)
+* [Sabnzbd](https://sabnzbd.org) [linuxserver/sabnzbd](https://hub.docker.com/r/linuxserver/plex/) - Free and easy binary newsreader
+* [CouchPotato](https://couchpota.to) [linuxserver/couchpotato](https://hub.docker.com/r/linuxserver/couchpotato/) - Download movies automatically 
+* [Sonarr](https://sonarr.tv) [linuxserver/sonarr](https://hub.docker.com/r/linuxserver/sonarr/) - Download tv episodes automatically
+* [LazyLibrarian](https://github.com/lazylibrarian/LazyLibrarian) [linuxserver/lazylibrarian](https://hub.docker.com/r/linuxserver/lazylibrarian/) - Download books and magazines automatically 
+* [Headphones](https://github.com/rembo10/headphones) [linuxserver/headphones](https://hub.docker.com/r/linuxserver/headphones/) - Download music automatically 
+* [Plex](https://www.plex.tv) [linuxserver/plex](https://hub.docker.com/r/linuxserver/plex/) - Stream all your content to all your devices
+* [Ombi](http://www.ombi.io) [linuxserver/ombi](https://hub.docker.com/r/linuxserver/ombi/) - Plex Request and user management system 
+* [PlexPy](https://github.com/JonnyWong16/plexpy) [linuxserver/plexpy](https://hub.docker.com/r/linuxserver/plexpy/) - A Python based monitoring and tracking tool for Plex Media Server 
+* [HTPCManager](http://www.htpcmanager.io) [linuxserver/htpcmanager](https://hub.docker.com/r/linuxserver/htpcmanager/) - Manage your HTPC from anywhere 
 
 
 ## Getting Started
