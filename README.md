@@ -2,15 +2,17 @@
 
 Start your entire HTPC environment with one command.
 
-* [Sabnzbd](https://sabnzbd.org)<a href="https://hub.docker.com/r/linuxserver/sabnzbd/" rel="linuxserver/sabnzbd">![linuxserver/sabnzbd](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Free and easy binary newsreader
-* [CouchPotato](https://couchpota.to)<a href="https://hub.docker.com/r/linuxserver/couchpotato/" rel="linuxserver/couchpotato">![linuxserver/couchpotato](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Download movies automatically 
-* [Sonarr](https://sonarr.tv) <a href="https://hub.docker.com/r/linuxserver/sonarr/" rel="linuxserver/sonarr">![linuxserver/sonarr](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Download tv episodes automatically
-* [LazyLibrarian](https://github.com/lazylibrarian/LazyLibrarian)<a href="https://hub.docker.com/r/linuxserver/librarian/" rel="linuxserver/lazylibrarian">![linuxserver/lazylibrarian](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Download books and magazines automatically 
-* [Headphones](https://github.com/rembo10/headphones)<a href="https://hub.docker.com/r/linuxserver/headphones/" rel="linuxserver/headphones">![linuxserver/headphones](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Download music automatically 
-* [Plex](https://www.plex.tv)<a href="https://hub.docker.com/r/linuxserver/plex/" rel="linuxserver/plex">![linuxserver/plex](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Stream all your content to all your devices
-* [Ombi](http://www.ombi.io)<a href="https://hub.docker.com/r/linuxserver/ombi/" rel="linuxserver/ombi">![linuxserver/ombi](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Plex Request and user management system 
-* [PlexPy](https://github.com/JonnyWong16/plexpy)<a href="https://hub.docker.com/r/linuxserver/plexpy/" rel="linuxserver/plexpy">![linuxserver/plexpy](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - A Python based monitoring and tracking tool for Plex Media Server 
-* [HTPCManager](http://www.htpcmanager.io)<a href="https://hub.docker.com/r/linuxserver/htpcmanager/" rel="linuxserver/htpcmanager">![linuxserver/htpcmanager](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> - Manage your HTPC from anywhere 
+| Application | Docker Image | Description |
+| ----------- |:------------:| -----------:|
+| [Sabnzbd](https://sabnzbd.org) | <a href="https://hub.docker.com/r/linuxserver/sabnzbd/" rel="linuxserver/sabnzbd">![linuxserver/sabnzbd](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Free and easy binary newsreader |
+| [CouchPotato](https://couchpota.to) | <a href="https://hub.docker.com/r/linuxserver/couchpotato/" rel="linuxserver/couchpotato">![linuxserver/couchpotato](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download movies automatically |
+| [Sonarr](https://sonarr.tv) | <a href="https://hub.docker.com/r/linuxserver/sonarr/" rel="linuxserver/sonarr">![linuxserver/sonarr](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download tv episodes automatically |
+| [LazyLibrarian](https://github.com/lazylibrarian/LazyLibrarian) | <a href="https://hub.docker.com/r/linuxserver/librarian/" rel="linuxserver/lazylibrarian">![linuxserver/lazylibrarian](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download books and magazines automatically |
+| [Headphones](https://github.com/rembo10/headphones) | <a href="https://hub.docker.com/r/linuxserver/headphones/" rel="linuxserver/headphones">![linuxserver/headphones](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download music automatically |
+| [Plex](https://www.plex.tv) | <a href="https://hub.docker.com/r/linuxserver/plex/" rel="linuxserver/plex">![linuxserver/plex](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Stream all your content to all your devices |
+| [Ombi](http://www.ombi.io) | <a href="https://hub.docker.com/r/linuxserver/ombi/" rel="linuxserver/ombi">![linuxserver/ombi](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Plex Request and user management system |
+| [PlexPy](https://github.com/JonnyWong16/plexpy) | <a href="https://hub.docker.com/r/linuxserver/plexpy/" rel="linuxserver/plexpy">![linuxserver/plexpy](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | A Python based monitoring and tracking tool for Plex Media Server |
+| [HTPCManager](http://www.htpcmanager.io) | <a href="https://hub.docker.com/r/linuxserver/htpcmanager/" rel="linuxserver/htpcmanager">![linuxserver/htpcmanager](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Manage your HTPC from anywhere |
 
 ## Getting Started
 
