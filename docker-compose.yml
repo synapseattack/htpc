@@ -205,7 +205,7 @@ services:
   ####################################
 
   ombi:
-    image: linuxserver/ombi:23
+    image: linuxserver/ombi
     container_name: ombi
     environment:
       - PGID=1001
@@ -237,7 +237,7 @@ services:
       - plex 
 
   htpcmanager:
-    image: linuxserver/htpcmanager:latest
+    image: linuxserver/htpcmanager
     container_name: htpcmanager
     environment:
       - PGID=1001
