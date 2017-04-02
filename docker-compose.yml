@@ -237,7 +237,7 @@ services:
       - plex 
 
   htpcmanager:
-    image: linuxserver/htpcmanager
+    image: linuxserver/htpcmanager:latest
     container_name: htpcmanager
     environment:
       - PGID=1001
