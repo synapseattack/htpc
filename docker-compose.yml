@@ -205,7 +205,7 @@ services:
   ####################################
 
   ombi:
-    image: linuxserver/ombi
+    image: linuxserver/ombi:23
     container_name: ombi
     environment:
       - PGID=1001
