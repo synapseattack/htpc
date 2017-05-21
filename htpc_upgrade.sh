@@ -3,11 +3,15 @@
 export docker_compose_dir="/docker/htpc"
 export docker_backup_dir="/fileserver/docker_backup"
 
+# Pull a list of all running containers.  This will be used for the backup script
+
+
 #echo -e "* \e[32mPause the sabnzbd queue\e[0m"
 # TODO: curl command not currently working
 # curl -k https://localhost:9090/sabnzbd/api?apikey=81c20d47846364b33dd232f1330b6be4&output=json&mode=queue
 
 #echo -e "* \e[32mCheck for active Plex users\e[0m"
+
 
 echo -e "* \e[32mStop all HTPC docker containers\e[0m"
 cd $docker_compose_dir
