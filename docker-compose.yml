@@ -88,7 +88,22 @@ services:
   #####################################
   # Indexers
   ####################################
-  
+ 
+  nzbhydra:
+    image: linuxserver/hydra
+    container_name: hydra
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "5075:5075"
+    volumes:
+      - /docker/nzbhydra/config:/config
+      - /fileserver/watched:/downloads
+    depends_on:
+      - sabnzbd
+
   couchpotato:
     image: linuxserver/couchpotato
     container_name: couchpotato
