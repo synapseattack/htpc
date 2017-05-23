@@ -122,9 +122,9 @@ services:
     depends_on:
       - sabnzbd
 
-   ###############################
-   ## Still using CouchPotato for the time being
-   ###############################
+  ###############################
+  ## Still using CouchPotato for the time being
+  ###############################
 #  radarr:
 #    image: linuxserver/radarr
 #    container_name: radarr
@@ -179,21 +179,27 @@ services:
 #  mylar:
 #    image: linuxserver/mylar
 
-  headphones:
-    image: linuxserver/headphones
-    container_name: headphones
-    environment:
-      - PGID=1001
-      - PUID=1001
-      - TZ=America/Denver
-    ports:
-      - "8181:8181"
-    volumes:
-      - /docker/headphones/config:/config
-      - /fileserver/complete/music:/fileserver/complete/music
-      - /fileserver/music:/fileserver/music
-    depends_on: 
-      - sabnzbd
+  ###############################
+  # 20170523 - JBN
+  # Headphones is consuming 100% of all CPU's.
+  # Until that is fixed the container is being
+  # disabled 
+  ###############################
+#  headphones:
+#    image: linuxserver/headphones
+#    container_name: headphones
+#    environment:
+#      - PGID=1001
+#      - PUID=1001
+#      - TZ=America/Denver
+#    ports:
+#      - "8181:8181"
+#    volumes:
+#      - /docker/headphones/config:/config
+#      - /fileserver/complete/music:/fileserver/complete/music
+#      - /fileserver/music:/fileserver/music
+#    depends_on: 
+#      - sabnzbd
 
   #####################################
   # Front End
