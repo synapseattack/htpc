@@ -179,27 +179,21 @@ services:
 #  mylar:
 #    image: linuxserver/mylar
 
-  ###############################
-  # 20170523 - JBN
-  # Headphones is consuming 100% of all CPU's.
-  # Until that is fixed the container is being
-  # disabled 
-  ###############################
-#  headphones:
-#    image: linuxserver/headphones
-#    container_name: headphones
-#    environment:
-#      - PGID=1001
-#      - PUID=1001
-#      - TZ=America/Denver
-#    ports:
-#      - "8181:8181"
-#    volumes:
-#      - /docker/headphones/config:/config
-#      - /fileserver/complete/music:/fileserver/complete/music
-#      - /fileserver/music:/fileserver/music
-#    depends_on: 
-#      - sabnzbd
+  headphones:
+    image: linuxserver/headphones
+    container_name: headphones
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "8181:8181"
+    volumes:
+      - /docker/headphones/config:/config
+      - /fileserver/complete/music:/fileserver/complete/music
+      - /fileserver/music:/fileserver/music
+    depends_on: 
+      - sabnzbd
 
   #####################################
   # Front End
