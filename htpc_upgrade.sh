@@ -7,8 +7,8 @@ export docker_backup_dir="/fileserver/docker_backup"
 sudo apt-get --only-upgrade install docker
 
 # try to upgrade docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
 # Pull a list of all running containers.  This will be used for the backup script
 
