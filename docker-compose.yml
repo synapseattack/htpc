@@ -1,29 +1,31 @@
-version: "3"
+version: "3.2"
 
 ##########################################################################
 ##
 ## This file was developed with:
 ##   * docker version
 ##     Client:
-##      Version:      17.03.1-ce
-##      API version:  1.27
+##      Version:      17.05.0-ce
+##      API version:  1.29
 ##      Go version:   go1.7.5
-##      Git commit:   c6d412e
-##      Built:        Fri Mar 24 00:45:26 2017
+##      Git commit:   89658be
+##      Built:        Thu May  4 22:10:54 2017
 ##      OS/Arch:      linux/amd64
-##     
+##
 ##     Server:
-##      Version:      17.03.1-ce
-##      API version:  1.27 (minimum version 1.12)
+##      Version:      17.05.0-ce
+##      API version:  1.29 (minimum version 1.12)
 ##      Go version:   go1.7.5
-##      Git commit:   c6d412e
-##      Built:        Fri Mar 24 00:45:26 2017
+##      Git commit:   89658be
+##      Built:        Thu May  4 22:10:54 2017
 ##      OS/Arch:      linux/amd64
 ##      Experimental: false
 ##     
 ##   * docker-compose --version
-##     docker-compose version 1.11.1, build 7c5d5e4
-##     https://docs.docker.com/compose/install/
+##      docker-compose version 1.13.0, build 1719ceb
+##      docker-py version: 2.2.1
+##      CPython version: 2.7.13
+##      OpenSSL version: OpenSSL 1.0.1t  3 May 2016
 ##
 ## * Where possible I tried using SSL ports.  If there is non-SSL ports 
 ##    active then either the app does not support SSL or I need to generate
