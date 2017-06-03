@@ -5,6 +5,7 @@ Start your entire HTPC environment with one command.
 | Application | Docker Image | Description |
 | ----------- |:------------:| ----------- |
 | [Sabnzbd](https://sabnzbd.org) | <a href="https://hub.docker.com/r/linuxserver/sabnzbd/" rel="linuxserver/sabnzbd">![linuxserver/sabnzbd](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Free and easy binary newsreader |
+| [NzbHydra](https://github.com/theotherp/nzbhydra) | <a href="https://hub.docker.com/r/linuxserver/hydra/" rel="linuxserver/hydra">![linuxserver/hydra](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Meta search for NZB indexers |
 | [CouchPotato](https://couchpota.to) | <a href="https://hub.docker.com/r/linuxserver/couchpotato/" rel="linuxserver/couchpotato">![linuxserver/couchpotato](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download movies automatically |
 | [Sonarr](https://sonarr.tv) | <a href="https://hub.docker.com/r/linuxserver/sonarr/" rel="linuxserver/sonarr">![linuxserver/sonarr](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download tv episodes automatically |
 | [LazyLibrarian](https://github.com/lazylibrarian/LazyLibrarian) | <a href="https://hub.docker.com/r/linuxserver/lazylibrarian/" rel="linuxserver/lazylibrarian">![linuxserver/lazylibrarian](https://maxcdn.icons8.com/Color/PNG/24/Logos/docker-24.png)</a> | Download books and magazines automatically |
