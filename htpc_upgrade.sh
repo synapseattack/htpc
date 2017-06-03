@@ -2,7 +2,7 @@
 
 export docker_compose_dir="/docker/htpc"
 export docker_backup_dir="/fileserver/docker_backup"
-export docker-compose_version="1.13.0"
+export docker_compose_version="1.13.0"
 
 # Pull a list of all running containers.  This will be used for the backup script
 
@@ -35,7 +35,7 @@ echo -e "* \e[32mInstall latest docker version\e[0m"
 sudo apt-get --only-upgrade install docker
 
 echo -e "* \e[32mInstall latest docker-compose version\e[0m"
-sudo curl -L https://github.com/docker/compose/releases/download/$docker-compose_version/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/$docker_compose_version/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
 echo -e "* \e[32mRestart HTPC docker containers\e[0m"
