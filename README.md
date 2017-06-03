@@ -23,8 +23,8 @@ These instructions will get you a copy of the project up and running on your loc
 The following packages need to be installed:
 
 1. Your favorite flavor of linux.  All file paths are linux specific
-2. Docker Community Edition (currently tested on 17.03.1-ce)
-3. Docker-Compose (currently tested on 1.11.1, build 7c5d5e4)
+2. Docker Community Edition (currently tested on 17.05.0-ce)
+3. Docker-Compose (currently tested on 1.13.0, build 1719ceb)
 
 ### Installing
 
@@ -76,6 +76,7 @@ Thanks to everyone who developed the following:
 * LinuxServer.io
 * Plex
 * Sabnzbd
+* NzbHydra
 * Sonarr
 * CouchPotato
 * Headphones
