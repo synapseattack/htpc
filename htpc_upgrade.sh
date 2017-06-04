@@ -1,26 +1,53 @@
 #!/usr/bin/env bash
 
+export docker_compose_dir="/docker/htpc"
+export docker_backup_dir="/fileserver/docker_backup"
+# Pull a list of all docker-compose services
+declare -a docker_services=$(docker-compose config --services)
 export plexpy_users
 export plexpy_ip_address="192.168.0.202"
 export plexpy_port="8282"
 export plexpy_api_key="68600c669af2b6f9afbda97de9b86e38"
-export sabnzdb_ip_address="192.168.0.202"
-export sabnzdb_port="8080"
+export sabnzbd_ip_address="192.168.0.202"
+export sabnzbd_port="8080"
 export sabnzbd_api_key="81c20d47846364b33dd232f1330b6be4"
+export sabnzbd_pause_status
+export sabnzbd_unpause_status
+export sabnzbd_queue_status
 
+##########################################################################
+#
+# Pause the queue and return whether the command was successful (true) or not (false)
+#
 ##########################################################################
 
 function pauseSabnzbdQueue()
 {
 	echo -e "\e[32m* Pause the sabnzbd queue\e[0m"
-	$(curl "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=queue")
+	sabnzbd_pause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=pause" | jq .status)
 }
 
 #########################################################################
+#
+# Resume the sabnzbd queue and return whether the command was successful (true) or not (false)
+#
+##########################################################################
 
-function unpauseSabnzbdQueue()
+function resumeSabnzbdQueue()
 {
-	echo "Unpause"
+	echo -e "\e[32m* Unpause the sabnzbd queue\e[0m"
+	sabnzbd_unpause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=resume" | jq .status)
+}
+
+##########################################################################
+#
+#
+#
+##########################################################################
+
+function sabnzbdQueueStatus()
+{
+	sabnzbd_queue_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=queue" | jq .queue.paused)
 }
 
 ##########################################################################
@@ -131,13 +158,6 @@ function removeOldContainers()
 
 ##########################################################################
 
-export docker_compose_dir="/docker/htpc"
-export docker_backup_dir="/fileserver/docker_backup"
-
-# Pull a list of all docker-compose services
-declare -a docker_services=$(docker-compose config --services)
-
-
 checkPlexUsers
 
 if [ $plexpy_users -eq 0 ]
@@ -147,7 +167,12 @@ else
 	echo "Still users"
 fi
 
-#pauseSabnzbdQueue
+if [ pauseSabnzbdQueue ]
+then
+	echo "SABNZBD queue paused"
+else
+	echo "ERROR: SABNZBD queue not paused"
+fi
 
 # TODO: Check to see if there are any new docker images
 pullDockerCompose
@@ -164,6 +189,11 @@ upgradeDockerCompose
 
 startDockerCompose
 
-unpauseSabnzbdQueue
+if [ resumeSabnzbdQueue ]
+then
+	echo "SABNZBD queue resumed"
+else
+	echo "ERROR: SABNZBD queue not resumed"
+fi
 
-#removeOldContainers
+removeOldContainers
