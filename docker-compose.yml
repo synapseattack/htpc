@@ -76,7 +76,7 @@ services:
       - PUID=1001
       - TZ=America/Denver
     ports:
-      #- "8080:8080" # HTTP
+      - "8080:8080" # HTTP
       - "9090:9090" # HTTPS
     volumes:
       - /docker/sabnzbd/config:/config
