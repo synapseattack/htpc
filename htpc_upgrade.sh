@@ -1,22 +1,41 @@
 #!/usr/bin/env bash
 
-##########################################################################
+export plexpy_users
+export plexpy_ip_address="192.168.0.202"
+export plexpy_port="8282"
+export plexpy_api_key="68600c669af2b6f9afbda97de9b86e38"
+export sabnzdb_ip_address="192.168.0.202"
+export sabnzdb_port="8080"
+export sabnzbd_api_key="81c20d47846364b33dd232f1330b6be4"
 
-# TODO: curl command not currently working
+##########################################################################
 
 function pauseSabnzbdQueue()
 {
 	echo -e "\e[32m* Pause the sabnzbd queue\e[0m"
-	curl -k https://localhost:9090/sabnzbd/api?apikey=81c20d47846364b33dd232f1330b6be4&output=json&mode=queue
+	$(curl "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=queue")
+}
+
+#########################################################################
+
+function unpauseSabnzbdQueue()
+{
+	echo "Unpause"
 }
 
 ##########################################################################
-
-# TODO: query Plex for active users.  If users found exit the script
+#
+# Query PlexPy for the number of users logged into Plex. This value is used
+# later on to determine if Plex can be turned off without impacting users.
+#
+##########################################################################
 
 function checkPlexUsers()
 {
 	echo -e "\e[32m* Check for active Plex users\e[0m"
+	# the return value from jq actually has double quotes around it.
+	# Those need to be striped off in order for the variable to work.
+	plexpy_users=$(curl -s "http://$plexpy_ip_address:$plexpy_port/api/v2?apikey=$plexpy_api_key&cmd=get_activity" | jq .response.data.stream_count | sed s/\"//g)
 }
 
 ##########################################################################
@@ -118,8 +137,16 @@ export docker_backup_dir="/fileserver/docker_backup"
 declare -a docker_services=$(docker-compose config --services)
 
 
-##checkPlexUsers
-##pauseSabnzbdQueue
+checkPlexUsers
+
+if [ $plexpy_users -eq 0 ]
+then
+	echo "No users"
+else
+	echo "Still users"
+fi
+
+#pauseSabnzbdQueue
 
 # TODO: Check to see if there are any new docker images
 pullDockerCompose
@@ -136,4 +163,6 @@ upgradeDockerCompose
 
 startDockerCompose
 
-removeOldContainers
+unpauseSabnzbdQueue
+
+#removeOldContainers
