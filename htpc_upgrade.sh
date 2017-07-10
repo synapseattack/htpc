@@ -109,7 +109,7 @@ function upgradeDocker()
 {
 	echo -e "\e[32m* Install latest docker version\e[0m"
 	sudo apt-get update
-	sudo apt-get --only-upgrade install docker-engine
+	sudo apt-get --only-upgrade install docker-ce
 }
 
 ##########################################################################
