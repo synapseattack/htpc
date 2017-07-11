@@ -122,7 +122,7 @@ function upgradeDockerCompose()
 	# Query the version, but jq needs to be installed on the server running this script
 	#export docker_compose_version_available=$(curl -s https://api.github.com/repos/docker/compose/tags |jq --raw-output '.[] | .name' |egrep -v "\-rc|docs" |sort --version-sort |tail -1)
 	# Query the version, Docker needs to be installed and configured.  It will pull pinterb/jq if it is missing
-	export docker_compose_version_available=$(curl -s https://api.github.com/repos/docker/compose/tags | docker run -i pinterb/jq --raw-output '.[] | .name' |egrep -v "\-rc|docs" |sort --version-sort |tail -1)
+	export docker_compose_version_available=$(curl -s https://api.github.com/repos/docker/compose/tags | docker run --rm -i pinterb/jq --raw-output '.[] | .name' |egrep -v "\-rc|docs" |sort --version-sort |tail -1)
 
 	echo -e "\e[32m* Install latest docker-compose version\e[0m"
 	if [ $docker_compose_version_installed != $docker_compose_version_available ] 
