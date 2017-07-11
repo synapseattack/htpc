@@ -24,7 +24,7 @@ export sabnzbd_queue_status
 function pauseSabnzbdQueue()
 {
 	echo -e "\e[32m* Pause the sabnzbd queue\e[0m"
-	sabnzbd_pause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=pause" | jq .status)
+	sabnzbd_pause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=pause" | docker run --rm -i pinterb/jq --raw-output .status)
 }
 
 #########################################################################
@@ -36,7 +36,7 @@ function pauseSabnzbdQueue()
 function resumeSabnzbdQueue()
 {
 	echo -e "\e[32m* Unpause the sabnzbd queue\e[0m"
-	sabnzbd_unpause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=resume" | jq .status)
+	sabnzbd_unpause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=resume" | docker run --rm -i pinterb/ jq --raw-output .status)
 }
 
 ##########################################################################
@@ -47,7 +47,7 @@ function resumeSabnzbdQueue()
 
 function sabnzbdQueueStatus()
 {
-	sabnzbd_queue_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=queue" | jq .queue.paused)
+	sabnzbd_queue_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=queue" | docker run --rm -i pinterb/jq --raw-output .queue.paused)
 }
 
 ##########################################################################
@@ -62,7 +62,7 @@ function checkPlexUsers()
 	echo -e "\e[32m* Check for active Plex users\e[0m"
 	# the return value from jq actually has double quotes around it.
 	# Those need to be striped off in order for the variable to work.
-	plexpy_users=$(curl -s "http://$plexpy_ip_address:$plexpy_port/api/v2?apikey=$plexpy_api_key&cmd=get_activity" | jq .response.data.stream_count | sed s/\"//g)
+	plexpy_users=$(curl -s "http://$plexpy_ip_address:$plexpy_port/api/v2?apikey=$plexpy_api_key&cmd=get_activity" | docker run --rm -i pinterb/jq --raw-output .response.data.stream_count)
 }
 
 ##########################################################################
@@ -133,9 +133,6 @@ function upgradeDockerCompose()
 		echo -e "\e[31m  - docker-compose already up to date\e[0m"
 	fi
 
-	# Remove the docker image pinterb/jq.  A new version of the image will be
-	# downloaded next time the script runs
-	docker rmi pinterb/jq
 }
 
 ##########################################################################
@@ -163,6 +160,11 @@ function removeOldContainers()
 }
 
 ##########################################################################
+
+# Pull the docker image pinterb/jq.  This is used to parse json strings
+# from various services
+echo -e "\e[32m* Pull docker container pinterb/jq\e[0m"
+docker pull pinterb/jq
 
 checkPlexUsers
 
@@ -203,3 +205,9 @@ else
 fi
 
 removeOldContainers
+
+# Remove the docker image pinterb/jq.  A new version of the image will be
+# downloaded next time the script runs
+echo -e "\e[32m* Delete docker container pinterb/jq\e[0m"
+docker rmi pinterb/jq
+
