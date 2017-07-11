@@ -114,9 +114,6 @@ function upgradeDocker()
 
 ##########################################################################
 
-# TODO: remove hard coded docker-compose version
-# TODO: Query github for the latest version of docker-compose
-#       https://api.github.com/repos/docker/compose/tags
 function upgradeDockerCompose()
 {
 	export docker_compose_version_installed=$(docker-compose version |grep "docker-compose version" |awk '{print $3}' |sed 's/,//')
@@ -135,6 +132,10 @@ function upgradeDockerCompose()
 	else
 		echo -e "\e[31m  - docker-compose already up to date\e[0m"
 	fi
+
+	# Remove the docker image pinterb/jq.  A new version of the image will be
+	# downloaded next time the script runs
+	docker rmi pinterb/jq
 }
 
 ##########################################################################
