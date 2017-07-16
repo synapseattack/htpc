@@ -2,30 +2,31 @@ version: "3.2"
 
 ##########################################################################
 ##
-## This file was developed with:
+## This file was developed and tested with:
 ##   * docker version
-##     Client:
-##      Version:      17.05.0-ce
-##      API version:  1.29
-##      Go version:   go1.7.5
-##      Git commit:   89658be
-##      Built:        Thu May  4 22:10:54 2017
-##      OS/Arch:      linux/amd64
 ##
-##     Server:
-##      Version:      17.05.0-ce
-##      API version:  1.29 (minimum version 1.12)
-##      Go version:   go1.7.5
-##      Git commit:   89658be
-##      Built:        Thu May  4 22:10:54 2017
-##      OS/Arch:      linux/amd64
-##      Experimental: false
-##     
+##		Client:
+##		 Version:      17.06.0-ce
+##		 API version:  1.30
+##		 Go version:   go1.8.3
+##		 Git commit:   02c1d87
+##		 Built:        Fri Jun 23 21:23:31 2017
+##		 OS/Arch:      linux/amd64
+##		
+##		Server:
+##		 Version:      17.06.0-ce
+##		 API version:  1.30 (minimum version 1.12)
+##		 Go version:   go1.8.3
+##		 Git commit:   02c1d87
+##		 Built:        Fri Jun 23 21:19:04 2017
+##		 OS/Arch:      linux/amd64
+##		 Experimental: false
+##
 ##   * docker-compose --version
-##      docker-compose version 1.13.0, build 1719ceb
-##      docker-py version: 2.2.1
-##      CPython version: 2.7.13
-##      OpenSSL version: OpenSSL 1.0.1t  3 May 2016
+##		docker-compose version 1.14.0, build c7bdf9e
+##		docker-py version: 2.3.0
+##		CPython version: 2.7.13
+##		OpenSSL version: OpenSSL 1.0.1t  3 May 2016
 ##
 ## * Where possible I tried using SSL ports.  If there is non-SSL ports 
 ##    active then either the app does not support SSL or I need to generate
@@ -124,25 +125,6 @@ services:
     depends_on:
       - sabnzbd
 
-  ###############################
-  ## Still using CouchPotato for the time being
-  ###############################
-#  radarr:
-#    image: linuxserver/radarr
-#    container_name: radarr
-#    environment:
-#      - PGID=1001
-#      - PUID=1001
-#      - TZ=America/Denver
-#    ports:
-#      - "7878:7878"
-#    volumes:
-#      - /docker/radarr/config:/config
-#      - /fileserver/complete/movies:/downloads
-#      - /fileserver/movies:/movies
-#    depends_on:
-#      - sabnzbd
-
   sonarr:
     image: linuxserver/sonarr
     container_name: sonarr
@@ -219,7 +201,7 @@ services:
 
   #####################################
   # Managers
-  ####################################
+  #####################################
 
   ombi:
     image: linuxserver/ombi
@@ -269,3 +251,20 @@ services:
       - sonarr
       - couchpotato
       - plex
+
+  #####################################
+  # Music Library Manager
+  #####################################
+
+  beets:
+    image: linuxserver/beets
+    container_name: beets
+    environment:
+      - PGID=1001
+      - PUID=1001
+      - TZ=America/Denver
+    ports:
+      - "1234:1234"
+    volumes:
+      - /docker/beets/config:/config
+      - /fileserver/music:/music
