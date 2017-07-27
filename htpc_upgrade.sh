@@ -23,7 +23,8 @@ export sabnzbd_queue_status
 
 function pauseSabnzbdQueue()
 {
-	echo -e "\e[32m* Pause the sabnzbd queue\e[0m"
+	#echo -e "\e[32m* Pause the sabnzbd queue\e[0m"
+	majorBulletPoint "Pause the sabnzbd queue"
 	sabnzbd_pause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=pause" | docker run --rm -i pinterb/jq --raw-output .status)
 }
 
@@ -35,7 +36,9 @@ function pauseSabnzbdQueue()
 
 function resumeSabnzbdQueue()
 {
-	echo -e "\e[32m* Unpause the sabnzbd queue\e[0m"
+	#echo -e "\e[32m* Unpause the sabnzbd queue\e[0m"
+	majorBulletPoint "Unpause the sabnzbd queue"
+
 	sabnzbd_unpause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=resume" | docker run --rm -i pinterb/ jq --raw-output .status)
 }
 
@@ -59,18 +62,22 @@ function sabnzbdQueueStatus()
 
 function checkPlexUsers()
 {
-	echo -e "\e[32m* Check for active Plex users\e[0m"
+	#echo -e "\e[32m* Check for active Plex users\e[0m"
+	majorBulletPoint "Check for active Plex users"
+
 	# the return value from jq actually has double quotes around it.
 	# Those need to be striped off in order for the variable to work.
 	plexpy_users=$(curl -s "http://$plexpy_ip_address:$plexpy_port/api/v2?apikey=$plexpy_api_key&cmd=get_activity" | docker run --rm -i pinterb/jq --raw-output .response.data.stream_count)
 }
 
 ##########################################################################
-
+#
 # TODO: If no new images pulled skip to docker+docker-compose upgrade
 # TODO: Query docker hub for hashes of :latest images.  Compare those hashes
 #       to the hash of the currently installed images.  if they are different
 #       then pull.  If they are the same skip the pull
+#
+##########################################################################
 
 function pullDockerCompose()
 {
@@ -81,7 +88,9 @@ function pullDockerCompose()
 	#	docker pull $image; 
 	#done;
 
-	echo -e "\e[32m* Pull the latest version of all HTPC images\e[0m"
+	#echo -e "\e[32m* Pull the latest version of all HTPC images\e[0m"
+	majorBulletPoint "Pull the latest version of all HTPC images"
+
 	docker-compose pull
 }
 
@@ -89,8 +98,9 @@ function pullDockerCompose()
 
 function startDockerCompose()
 {
-	echo -e "\e[32m* Restart HTPC docker containers\e[0m"
-	#cd $docker_compose_dir
+	#echo -e "\e[32m* Restart HTPC docker containers\e[0m"
+	majorBulletPoint "Restart HTPC docker containers"
+
 	docker-compose up -d
 }
 
@@ -98,8 +108,9 @@ function startDockerCompose()
 
 function stopDockerCompose()
 {
-	echo -e "\e[32m* Stop all HTPC docker containers\e[0m"
-	#cd $docker_compose_dir
+	#echo -e "\e[32m* Stop all HTPC docker containers\e[0m"
+	majorBulletPoint "Stop all HTPC docker containers"
+
 	docker-compose down
 }
 
@@ -107,9 +118,14 @@ function stopDockerCompose()
 
 function upgradeDocker()
 {
-	echo -e "\e[32m* Install latest docker version\e[0m"
+	#echo -e "\e[32m* Install latest docker version\e[0m"
+	majorBulletPoint "Install latest docker version"
+	# TODO: minorBulletPoint - display current docker version
+
 	sudo apt-get update
+	# TODO: query apt for version to install.  Only install if an upgradable 
 	sudo apt-get --only-upgrade install docker-ce
+	# TODO: minorBulletPoint - display installed docker version
 }
 
 ##########################################################################
@@ -117,14 +133,19 @@ function upgradeDocker()
 function upgradeDockerCompose()
 {
 	export docker_compose_version_installed=$(docker-compose version |grep "docker-compose version" |awk '{print $3}' |sed 's/,//')
+
+	# @Deprecated
 	# Harcoded docker_compose version
 	#export docker_compose_version_available="1.13.0"
 	# Query the version, but jq needs to be installed on the server running this script
 	#export docker_compose_version_available=$(curl -s https://api.github.com/repos/docker/compose/tags |jq --raw-output '.[] | .name' |egrep -v "\-rc|docs" |sort --version-sort |tail -1)
+	
 	# Query the version, Docker needs to be installed and configured.  It will pull pinterb/jq if it is missing
 	export docker_compose_version_available=$(curl -s https://api.github.com/repos/docker/compose/tags | docker run --rm -i pinterb/jq --raw-output '.[] | .name' |egrep -v "\-rc|docs" |sort --version-sort |tail -1)
 
-	echo -e "\e[32m* Install latest docker-compose version\e[0m"
+	#echo -e "\e[32m* Install latest docker-compose version\e[0m"
+	majorBulletPoint "Install latest docker-compose version"
+
 	if [ $docker_compose_version_installed != $docker_compose_version_available ] 
 	then
 		sudo curl -L https://github.com/docker/compose/releases/download/$docker_compose_version_available/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
@@ -132,17 +153,21 @@ function upgradeDockerCompose()
 	else
 		echo -e "\e[31m  - docker-compose already up to date\e[0m"
 	fi
-
 }
 
 ##########################################################################
-
+#
 # TODO: What directories can be excluded during tar.  Check plex documentation for backup recommendations
 # TODO: Execute all backups in parallel to speed up the process.
 # TODO: Execute backup commands for each app instead of simply running tar
+#
+##########################################################################
+
 function backupContainerVolumes()
 {
-	echo -e "\e[32m* Backup all HTPC docker volumes\e[0m"
+	#echo -e "\e[32m* Backup all HTPC docker volumes\e[0m"
+	majorBulletPoint "Backup all HTPC docker volumes"
+
 	sudo -u htpc tar -cvzf $docker_backup_dir/$(date +%Y%m%d%H%M%S)_htpc.tar.gz /docker
 }
 
@@ -150,20 +175,47 @@ function backupContainerVolumes()
 
 function removeOldContainers()
 {
-	echo -e "\e[32m* Clean up old docker containers\e[0m"
+	#echo -e "\e[32m* Clean up old docker containers\e[0m"
+	majorBulletPoint "Clean up old docker containers"
+
 	if [ $(docker images |grep "<none>" | wc -l) -gt 0 ]
 	then
 		docker rmi $(docker images |grep "<none>" |awk '{print $3}')
 	else
-		echo -e "\e[31m  - No linuxserver images to clean up\e[0m"
+		#echo -e "\e[31m  - No linuxserver images to clean up\e[0m"
+		minorBulletPoint "No linuxserver images to clean up"
 	fi
+}
+
+##########################################################################
+#
+# Add formatting to screen text that shows up as a major bullet point.
+#
+##########################################################################
+
+function majorBulletPoint()
+{
+	echo -e "\e[32m* $1 \e[0m"	
+}
+
+##########################################################################
+#
+# Add formatting to screen text output so it appears as a bullet point that
+#  is a child to a parent bullet point
+#
+##########################################################################
+
+function minorBulletPoint()
+{
+	echo -e "\e[31m  - $1\e[0m"
 }
 
 ##########################################################################
 
 # Pull the docker image pinterb/jq.  This is used to parse json strings
 # from various services
-echo -e "\e[32m* Pull docker container pinterb/jq\e[0m"
+#echo -e "\e[32m* Pull docker container pinterb/jq\e[0m"
+majorBulletPoint "Pull docker container pinterb/jq"
 docker pull pinterb/jq
 
 checkPlexUsers
@@ -208,6 +260,7 @@ removeOldContainers
 
 # Remove the docker image pinterb/jq.  A new version of the image will be
 # downloaded next time the script runs
-echo -e "\e[32m* Delete docker container pinterb/jq\e[0m"
+#echo -e "\e[32m* Delete docker container pinterb/jq\e[0m"
+majorBulletPoint "Delete docker container pinterb/jq"
 docker rmi pinterb/jq
 
