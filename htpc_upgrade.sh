@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-export docker_compose_dir="/docker/htpc"
+export docker_config_root="/docker"
+export docker_compose_dir="$docker_config_root/htpc"
 export docker_backup_dir="/fileserver/docker_backup"
 # Pull a list of all docker-compose services
 declare -a docker_services=$(docker-compose config --services)
@@ -159,7 +160,11 @@ function backupContainerVolumes()
 {
 	majorBulletPoint "Backup all HTPC docker volumes"
 
-	sudo -u htpc tar -cvzf $docker_backup_dir/$(date +%Y%m%d%H%M%S)_htpc.tar.gz /docker
+	#sudo -u htpc tar -cvzf $docker_backup_dir/$(date +%Y%m%d%H%M%S)_htpc.tar.gz /docker
+	for i in $(find /docker -maxdepth 1 ! -path /docker -type d -printf '%f\n'); 
+	do 
+		echo "sudo -u htpc tar -cvzf $docker_backup_dir/$(date +%Y%m%d%H%M%S)_$i.tar.gz $docker_config_root/$i &"; 
+	done;
 }
 
 ##########################################################################
@@ -229,7 +234,7 @@ pullDockerCompose
 # TODO: Check to see if docker-compose needs to be upgraded before stopping
 stopDockerCompose
 
-#backupContainerVolumes
+backupContainerVolumes
 
 upgradeDocker
 
