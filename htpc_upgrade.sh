@@ -23,7 +23,6 @@ export sabnzbd_queue_status
 
 function pauseSabnzbdQueue()
 {
-	#echo -e "\e[32m* Pause the sabnzbd queue\e[0m"
 	majorBulletPoint "Pause the sabnzbd queue"
 	sabnzbd_pause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=pause" | docker run --rm -i pinterb/jq --raw-output .status)
 }
@@ -36,7 +35,6 @@ function pauseSabnzbdQueue()
 
 function resumeSabnzbdQueue()
 {
-	#echo -e "\e[32m* Unpause the sabnzbd queue\e[0m"
 	majorBulletPoint "Unpause the sabnzbd queue"
 
 	sabnzbd_unpause_status=$(curl -s "http://$sabnzbd_ip_address:$sabnzbd_port/sabnzbd/api?apikey=$sabnzbd_api_key&output=json&mode=resume" | docker run --rm -i pinterb/ jq --raw-output .status)
@@ -62,7 +60,6 @@ function sabnzbdQueueStatus()
 
 function checkPlexUsers()
 {
-	#echo -e "\e[32m* Check for active Plex users\e[0m"
 	majorBulletPoint "Check for active Plex users"
 
 	# the return value from jq actually has double quotes around it.
@@ -88,7 +85,6 @@ function pullDockerCompose()
 	#	docker pull $image; 
 	#done;
 
-	#echo -e "\e[32m* Pull the latest version of all HTPC images\e[0m"
 	majorBulletPoint "Pull the latest version of all HTPC images"
 
 	docker-compose pull
@@ -98,7 +94,6 @@ function pullDockerCompose()
 
 function startDockerCompose()
 {
-	#echo -e "\e[32m* Restart HTPC docker containers\e[0m"
 	majorBulletPoint "Restart HTPC docker containers"
 
 	docker-compose up -d
@@ -108,7 +103,6 @@ function startDockerCompose()
 
 function stopDockerCompose()
 {
-	#echo -e "\e[32m* Stop all HTPC docker containers\e[0m"
 	majorBulletPoint "Stop all HTPC docker containers"
 
 	docker-compose down
@@ -118,7 +112,6 @@ function stopDockerCompose()
 
 function upgradeDocker()
 {
-	#echo -e "\e[32m* Install latest docker version\e[0m"
 	majorBulletPoint "Install latest docker version"
 	# TODO: minorBulletPoint - display current docker version
 
@@ -143,7 +136,6 @@ function upgradeDockerCompose()
 	# Query the version, Docker needs to be installed and configured.  It will pull pinterb/jq if it is missing
 	export docker_compose_version_available=$(curl -s https://api.github.com/repos/docker/compose/tags | docker run --rm -i pinterb/jq --raw-output '.[] | .name' |egrep -v "\-rc|docs" |sort --version-sort |tail -1)
 
-	#echo -e "\e[32m* Install latest docker-compose version\e[0m"
 	majorBulletPoint "Install latest docker-compose version"
 
 	if [ $docker_compose_version_installed != $docker_compose_version_available ] 
@@ -165,7 +157,6 @@ function upgradeDockerCompose()
 
 function backupContainerVolumes()
 {
-	#echo -e "\e[32m* Backup all HTPC docker volumes\e[0m"
 	majorBulletPoint "Backup all HTPC docker volumes"
 
 	sudo -u htpc tar -cvzf $docker_backup_dir/$(date +%Y%m%d%H%M%S)_htpc.tar.gz /docker
@@ -175,14 +166,12 @@ function backupContainerVolumes()
 
 function removeOldContainers()
 {
-	#echo -e "\e[32m* Clean up old docker containers\e[0m"
 	majorBulletPoint "Clean up old docker containers"
 
 	if [ $(docker images |grep "<none>" | wc -l) -gt 0 ]
 	then
 		docker rmi $(docker images |grep "<none>" |awk '{print $3}')
 	else
-		#echo -e "\e[31m  - No linuxserver images to clean up\e[0m"
 		minorBulletPoint "No linuxserver images to clean up"
 	fi
 }
@@ -214,7 +203,6 @@ function minorBulletPoint()
 
 # Pull the docker image pinterb/jq.  This is used to parse json strings
 # from various services
-#echo -e "\e[32m* Pull docker container pinterb/jq\e[0m"
 majorBulletPoint "Pull docker container pinterb/jq"
 docker pull pinterb/jq
 
@@ -229,9 +217,9 @@ fi
 
 if [ pauseSabnzbdQueue ]
 then
-	echo "SABNZBD queue paused"
+	majorBulletPoint "SABNZBD queue paused"
 else
-	echo "ERROR: SABNZBD queue not paused"
+	majorBulletPoint "ERROR: SABNZBD queue not paused"
 fi
 
 # TODO: Check to see if there are any new docker images
@@ -251,16 +239,15 @@ startDockerCompose
 
 if [ resumeSabnzbdQueue ]
 then
-	echo "SABNZBD queue resumed"
+	majorBulletPoint "SABNZBD queue resumed"
 else
-	echo "ERROR: SABNZBD queue not resumed"
+	majorBulletPoint "ERROR: SABNZBD queue not resumed"
 fi
 
 removeOldContainers
 
 # Remove the docker image pinterb/jq.  A new version of the image will be
 # downloaded next time the script runs
-#echo -e "\e[32m* Delete docker container pinterb/jq\e[0m"
 majorBulletPoint "Delete docker container pinterb/jq"
 docker rmi pinterb/jq
 
