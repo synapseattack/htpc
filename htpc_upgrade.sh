@@ -206,6 +206,10 @@ function minorBulletPoint()
 
 ##########################################################################
 
+# There are several steps in this process that require sudo rights.
+# Enter your sudo password so the process can complete
+sudo ls
+
 # Pull the docker image pinterb/jq.  This is used to parse json strings
 # from various services
 majorBulletPoint "Pull docker container pinterb/jq"
