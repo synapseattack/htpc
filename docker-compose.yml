@@ -146,7 +146,7 @@ services:
       - sabnzbd
 
   lazylibrarian:
-    image: linuxserver/lazylibrarian
+    image: linuxserver/lazylibrarian:55
     container_name: lazylibrarian
     environment:
       - PGID=1001
